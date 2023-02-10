@@ -11,15 +11,64 @@
 
 <body>
 
-  <h1>Add Title Here</h1>
-
-    <button id = "exportPDF">Generate PDF</button>
-    <button id = "exportImage">Generate Image</button>
-
-
     <div id="vizContainer"></div>
+    <div style="margin:auto">
+        <button id = "exportPDF">Generate PDF</button>
+        <button id = "exportImage">Generate Image</button>
+    </div>
 
-    <script src="./app.js"></script>
+    <script >
+        
+console.log('Is this working?');
+let viz;
+
+//Add Share Link to Tableau Public in here
+const url = "https://public.tableau.com/views/SampleDashboard_16760181553310/HomePage-Statistics?:language=en-US&:display_count=n&:origin=viz_share_link";
+
+const vizContainer = document.getElementById('vizContainer');
+const options = {
+    hideTabs: true,
+    height: 1300,
+    width: 1800,
+    onFirstInteraction: function() {
+        workbook = viz.getWorkbook();
+        activeSheet = workbook.getActiveSheet();
+        console.log("My dashboard is interactive");
+    }
+};
+
+//create a function to generate the viz element
+function initViz() {
+    console.log('Executing the initViz function!');
+    viz = new tableau.Viz(vizContainer, url, options);
+}
+
+// run the initViz function when the page loads
+document.addEventListener("DOMContentLoaded", initViz);
+
+const exportPDF = document.getElementById('exportPDF');
+const exportImage = document.getElementById('exportImage');
+
+
+//click on the pdf button to generate pdf of dashboard
+function generatePDF() {
+    viz.showExportPDFDialog()
+}
+
+exportPDF.addEventListener("click", function () {
+    generatePDF();
+  });
+
+//click on image to generate image of dashboard
+function generateImage() {
+    viz.showExportImageDialog()
+}
+
+exportImage.addEventListener("click", function () {
+    generateImage();
+  });
+
+    </script>
 
 </body>
 
